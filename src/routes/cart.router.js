@@ -93,6 +93,9 @@ router.post(
   autorizar("usuario"),
   async (req, res) => {
     try {
+      if (!req.user.email) {
+        return res.status(400).json({ error: "Usuario sin email asociado" });
+      }
       const { ticket, productosSinStock } = await procesarCompra(
         req.params.cid,
         req.user.email,
